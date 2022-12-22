@@ -4,7 +4,7 @@ import pdfkit
 
 def choose_type():
     file_name = 'vacancies.csv'
-    profession = 'Программист'
+    profession = 'Аналитик'
     choosing_type = input('Введите данные для печати: ')
     data = DataSet(file_name)
     salary_year, count_year, salary_year_prof, count_year_prof, salary_dict_by_city, count_vacancies_dict_by_city = \
