@@ -1,8 +1,10 @@
 from get_full_statistic_and_table import DataSet, Information, Report
 import pdfkit
+import doctest
 
 
 def choose_type():
+    """Фукция выбора метода печати и создания PDF файла с выбранным методом статистики"""
     file_name = 'vacancies.csv'
     profession = 'Аналитик'
     choosing_type = input('Введите данные для печати: ')
