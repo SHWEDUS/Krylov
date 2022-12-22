@@ -103,7 +103,7 @@ class Vacancies:
 
 class Report:
     def __init__(self, salary_year, count_year, salary_year_prof, count_year_prof, salary_dict_by_city,
-                 count_vacancies_dict_by_city, new_count, prof_name):
+                 count_vacancies_dict_by_city, new_count, prof_name, choosing_type):
         self.salary_year = salary_year
         self.count_year = count_year
         self.salary_year_prof = salary_year_prof
@@ -125,7 +125,7 @@ class Report:
         self.sheet_2_rows = self.get_rows(sheet_2_columns)
         self.generate_pdf = Report.generate_pdf(prof_name, self.sheet_1_headers, self.sheet_2_headers,
                                                 self.sheet_1_rows,
-                                                self.sheet_2_rows)
+                                                self.sheet_2_rows, choosing_type)
         self.generate_image = Report.generate_image(salary_year, count_year, salary_year_prof, count_year_prof,
                                                     salary_dict_by_city, new_count, prof_name)
 
@@ -270,29 +270,46 @@ class Report:
 
         return plt
 
-
     @staticmethod
     def remove_percent(diction):
         return dict((k, float(v[:-1])) for k, v in diction.items())
 
     @staticmethod
-    def generate_pdf(profession, header_1, header_2, rows_1, rows_2):
+    def generate_pdf(profession, header_1, header_2, rows_1, rows_2, choosing_type):
         image_file = 'graph.png'
         environment = Environment(loader=FileSystemLoader('.'))
-        temp = environment.get_template('index.html')
-        pdf_template = temp.render({
-            'title': 'Аналитика по зарплатам и городам для профессии ' + profession,
-            'image_file': image_file,
-            'years_title': 'Статистика по годам',
-            'years_headers': header_1,
-            'years_rows': rows_1,
-            'cities_title': 'Статистика по городам',
-            'cities_headers': header_2,
-            'count_columns': len(header_2),
-            'cities_rows': rows_2,
-        })
+        if choosing_type == 'Вакансии':
+            temp = environment.get_template('vacancies_template.html')
+            pdf_template = temp.render({
+                'title': 'Аналитика по зарплатам и городам для профессии ' + profession,
+                'years_title': 'Статистика по годам',
+                'years_headers': header_1,
+                'years_rows': rows_1,
+                'cities_title': 'Статистика по городам',
+                'cities_headers': header_2,
+                'count_columns': len(header_2),
+                'cities_rows': rows_2,
+            })
+        elif choosing_type == 'Статистика':
+            temp = environment.get_template('statistic_template.html')
+            pdf_template = temp.render({
+                'title': 'Аналитика по зарплатам и городам для профессии ' + profession,
+                'image_file': image_file,
+            })
+        else:
+            temp = environment.get_template('default_template.html')
+            pdf_template = temp.render({
+                'title': 'Аналитика по зарплатам и городам для профессии ' + profession,
+                'image_file': image_file,
+                'years_title': 'Статистика по годам',
+                'years_headers': header_1,
+                'years_rows': rows_1,
+                'cities_title': 'Статистика по городам',
+                'cities_headers': header_2,
+                'count_columns': len(header_2),
+                'cities_rows': rows_2,
+            })
         return pdf_template
-
 
 class Information:
 
@@ -400,5 +417,3 @@ class Information:
         config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
         pdfkit.from_string(pdf_template, 'report.pdf', configuration=config, options={'enable-local-file-access': True})
 
-
-Information().go()
