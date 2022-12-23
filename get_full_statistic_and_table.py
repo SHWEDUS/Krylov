@@ -1,4 +1,6 @@
+import cProfile
 import csv
+import datetime
 import math
 
 import matplotlib
@@ -132,6 +134,7 @@ class Salary:
         salary_to(int): Верхняя граница оклада вакансии
         salary_currency(str): Валюта оклада вакансии
     """
+
     def __init__(self, salary_from, salary_to, salary_currency):
         """Получаем данных о зарплатах для вакансии
         Args:
@@ -152,6 +155,7 @@ class Vacancies:
         area_name(str): Место работы
         published_at(str): Дата публикации вакансии
     """
+
     def __init__(self, name, salary, area_name, published_at):
         """Получаем нужные нам данные о вакансии
         Args:
@@ -179,6 +183,7 @@ class Report:
         prof_name(str): Название профессии
         choosing_type(str): Выбор пользователя по поводу печати
     """
+
     def __init__(self, salary_year, count_year, salary_year_prof, count_year_prof, salary_dict_by_city,
                  count_vacancies_dict_by_city, new_count, prof_name, choosing_type):
         """Инициализация данных для статистики вакансий и выбранной профессии
@@ -461,8 +466,10 @@ class Report:
             })
         return pdf_template
 
+
 class Information:
     """Класс для получения всей нужной информации для создания графиков и таблиц"""
+
     @staticmethod
     def currency_in_rubles(salary, currency):
         """Функция для перевода зарубежных валют в рубли при помощи словаря currency_to_rub
@@ -617,4 +624,3 @@ class Information:
     #     pdf_template = result_book.generate_pdf
     #     config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
     #     pdfkit.from_string(pdf_template, 'report.pdf', configuration=config, options={'enable-local-file-access': True})
-
