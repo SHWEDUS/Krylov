@@ -596,6 +596,7 @@ class Information:
 
     @staticmethod
     def go():
+        """Фукция печати статистики"""
         file_name = input('Введите название файла: ')
         prof_name = input('Введите название профессии: ')
         data_set = DataSet(file_name)

@@ -8,10 +8,25 @@ profession = 'Аналитик'
 
 
 class PrintData():
+    """Клас иницализации файлов и получения данных аналитики
+    Atributes:
+        file_name(str): Название файла
+    """
     def __init__(self, file_name):
+        """Инициализация названия файла
+        Args:
+             file_name(str): Название файла
+        """
         self.file_name = file_name
 
     def print_data_analytic(self):
+        """Получение данных по годам
+        Returns:
+            salary_year(dict{int: int}): Словарь со средними зарплатами по годам
+            count_year(dict{int: int}): Словарь с количеством вакансий по годам
+            salary_year_prof(dict{int: int}): Словарь со средними зарплатами выбранной профессии по годам
+            count_year_prof(dict{int: int}): Словарь с количеством вакансий по выбранной профессии по годам
+        """
         vacancies = DataSet(self.file_name).vacancies
         years = Information().get_city_and_year(vacancies)
         salary_year = {}
@@ -27,10 +42,17 @@ class PrintData():
 
 
 def go(file_name):
+    """Старт работы программы
+    Atributes:
+        file_name(str): Название файла
+    Returns:
+        PrintData(): Данные по годам
+    """
     return PrintData(file_name).print_data_analytic()
 
 
 def get_multy():
+    """Печатаем данные с помощью мультипроцессинга"""
     path = r'C:\Users\Shwed\PycharmProjects\Krylov\csv'
     os.chdir(path)
     files = glob.glob('*.{}'.format('csv'))
