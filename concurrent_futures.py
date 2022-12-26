@@ -1,4 +1,4 @@
-import multiprocessing
+import concurrent.futures as pool
 from get_statistic_per_years import DataSet, Information
 import os
 import glob
@@ -51,13 +51,13 @@ def go(file_name):
     return PrintData(file_name).print_data_analytic()
 
 
-def get_multy():
-    """Печатаем данные с помощью мультипроцессинга"""
+def get_concurent():
+    """Печатаем данные с помощью Concurrent Futures"""
     path = r'C:\Users\Shwed\PycharmProjects\Krylov\csv'
     os.chdir(path)
     files = glob.glob('*.{}'.format('csv'))
-    with multiprocessing.Pool(processes=2) as p:
-        result = p.map(go, files)
+    with pool.ThreadPoolExecutor(max_workers=2) as executes:
+        result = executes.map(go, files)
     years_salary_dictionary = {}
     years_count_dictionary = {}
     years_salary_vacancy_dict = {}
@@ -75,5 +75,5 @@ def get_multy():
 
 
 if __name__ == '__main__':
-    get_multy()
+    get_concurent()
     print(f'{time.time() - start} seconds')
