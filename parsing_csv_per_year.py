@@ -28,7 +28,7 @@ class ParsingCsv():
                 if year in row['published_at']:
                     temp.append(row)
             df_new = pd.DataFrame(temp)
-            df_new.to_csv(f'csv\\{year}.csv', index=False)
+            df_new.to_csv(f'csv\\csv_per_year_new\\{year}.csv', index=False)
 
 
 ParsingCsv(input()).parse_csv()
