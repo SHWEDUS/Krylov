@@ -19,7 +19,7 @@ class ParsingCsv():
                                                   'published_at'])
         if df.empty:
             return 'Пустой файл!'
-        df.dropna(inplace=True)
+        # df.dropna(inplace=True)
         years = (date[:4] for date in df['published_at'])
         years = set(years)
         for year in years:
